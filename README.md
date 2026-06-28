@@ -1,16 +1,17 @@
-# React + Vite
+# Shopping Cart Reengineered Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+This is the reengineered frontend React application built with Vite and custom layout aesthetics.
 
-Currently, two official plugins are available:
+## Knowledge Graph & Git Hooks
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+This repository uses **Graphify** and **Code Review Graph (CRG)** to maintain a persistent, token-efficient knowledge graph of the codebase structure.
 
-## React Compiler
+### Features
+*   **Graphify**: Reconstructs the semantic and dependency relationship graph of the codebase files.
+*   **Code Review Graph (CRG)**: Extracts local AST trees and manages clusters (using the `Leiden` algorithm) to compute structural context for code reviews.
+*   **Auto-Wiki**: Wiki documentation is compiled inside `.code-review-graph/wiki/`.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+### Configured Hooks
+1.  **Post-Commit Hook** (`.git/hooks/post-commit`): Automatically updates the codebase graphs in the background on commit.
+2.  **Branch Switch Hook** (`.git/hooks/post-checkout`): Automatically determines files checked out on branch switch. If $\le$ 5 files change, runs an incremental update; if > 5 files change, runs a full graph rebuild in the background.
+3.  **Claude Stop Hook** (configured via `settings.local.json`): Runs the PID-guarded `stop-hook.py` script after every AI turn to update index states.
